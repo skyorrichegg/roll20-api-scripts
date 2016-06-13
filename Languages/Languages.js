@@ -42,7 +42,7 @@ var LanguageScript = LanguageScript || (function () {
     
     checkInstall = function() {
         log("version: "+version+" ("+releasedate+") installed");
-        log("https://github.com/Roll20/roll20-api-scripts/tree/master/Languages");
+        log("https://github.com/skyorrichegg/roll20-api-scripts/tree/master/Languages");
     },
     
     initialize = function() {
@@ -297,12 +297,12 @@ var LanguageScript = LanguageScript || (function () {
     			if(changeChar[seedRndInt] == undefined){
     				var replaceCharacter = " ";
     			}else{
-                    rndNum = random.nextInt(5) + 0
+                    rndNum = random.nextInt(5) + 0;
                     if(rndNum == 3){
     				var replaceCharacter = changeChar[seedRndInt];
                     }
                     else{
-                       var replaceCharacter = givenChar 
+                       var replaceCharacter = givenChar; 
                     }
     			}
     			semiGibberish = semiGibberish.replace(givenChar,replaceCharacter);
