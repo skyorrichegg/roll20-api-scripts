@@ -1,19 +1,15 @@
 /*
-
 Github:   https://github.com/anthonytasca/roll20-api-scripts/blob/master/Languages/Languages.js
 By:       Anthony Tasca
 Contact:  https://app.roll20.net/users/1000007/target
-
 INTRODUCTION:
 This is a re-work of "WhatSaywithUnknown.js" by derekkoehl which is an "enhancement" on "What Did He Say?" by Stephen S.
 More information and a link to the credited work is provided here: https://app.roll20.net/forum/post/2723217/script-languages
-
 TO INSTALL:
 The default character sheet language attribute that this script uses is "prolanguages"
 Change this if your character sheets dont use this attribute
     TO DO:
     !setLanugageTag newlanguagetag
-
 */
 
 var LanguageScript = LanguageScript || (function () {
@@ -34,8 +30,9 @@ var LanguageScript = LanguageScript || (function () {
     roll20API = roll20API || {},
     
     whoSpoke = "",
-	whoSpoke2 = "",
+    whoSpoke2 = "",
     gibberish = "",
+    semiGibberish = "",
     spokenByIds = "",
     characters = "",
     
@@ -237,6 +234,14 @@ var LanguageScript = LanguageScript || (function () {
     		var gibberishCharacter = "";
     		gibberishFunction(standardArray,givenArray,characterGiven)
     	}
+        
+        semiGibberish = sentence;
+        for (var i=0;i<sentence.length;i++){
+        	var characterGiven = sentence.substr(i,1);
+    		var rng = customRandom(characterGiven.charCodeAt(0) + languageSeed);
+    		var gibberishCharacter = "";
+    		semiGibberishFunction(standardArray,givenArray,characterGiven)
+    	}
     	
     	var theSpeaker = _.findWhere(roll20API.fluencyArray, {isSpeaking: 1});
     	if(theSpeaker.speaks == -1){
@@ -261,7 +266,7 @@ var LanguageScript = LanguageScript || (function () {
                 if(indexPlayers.speaks != -1){
             		sendChat(msg.who, "/w " + whoSpoke2 + " '" + sentence +" ' in " + whichLanguage + ".");
             	}else{
-            		sendChat(msg.who, "/w " + whoSpoke2 + " " + gibberish)
+            		sendChat(msg.who, "/w " + whoSpoke2 + " " + semiGibberish)
             	}  
             }
     	});  
@@ -279,6 +284,28 @@ var LanguageScript = LanguageScript || (function () {
     				var replaceCharacter = changeChar[seedRndInt];
     			}
     			gibberish = gibberish.replace(givenChar,replaceCharacter);
+    		}
+    	}
+    },
+    
+    semGibberishFunction = function(standardChar,changeChar,givenChar) {
+        for (var j=0; j<standardChar.length; j++) {
+    		var rng = customRandom(givenChar.charCodeAt(0) + languageSeed);
+    		rndSeed = rng.next(1,changeChar.length);
+    		var seedRndInt = Math.round(rndSeed);
+    		if(standardChar[j] == givenChar) {
+    			if(changeChar[seedRndInt] == undefined){
+    				var replaceCharacter = " ";
+    			}else{
+                    rndNum = random.nextInt(5) + 0
+                    if(rndNum == 3){
+    				var replaceCharacter = changeChar[seedRndInt];
+                    }
+                    else{
+                       var replaceCharacter = givenChar 
+                    }
+    			}
+    			semiGibberish = semiGibberish.replace(givenChar,replaceCharacter);
     		}
     	}
     },
